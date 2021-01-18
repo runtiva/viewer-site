@@ -2,13 +2,13 @@ name: CI
 on:
   # On PRs for develop branch, we run checks / tests
   pull_request:
-    branches: [develop]
+    branches: [develop, main]
 
   # On pushes/approvals of PRs for develop branch,
   # we re-run build and run checks / tests
   # then deploy to staging
   push:
-    branches: [develop]
+    branches: [develop, main]
 
 jobs:
   build:
@@ -20,10 +20,7 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          path: ~/.npm00d4febd3baf3c61423d101cb687c524b40e520es }}-node-
       # Load NodeJS dependency
       - name: Use NodeJS
         uses: actions/setup-node@v1
@@ -49,6 +46,11 @@ jobs:
         with:
           name: build
           path: build
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy to staging
         if: github.event_name == 'push'
 
