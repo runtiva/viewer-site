@@ -1,4 +1,4 @@
-![](https://github.com/runtiva/viewer-app/workflows/CI/badge.svg?branch=develop&event=push)
+![](https://github.com/runtiva/viewer-site/workflows/CI/badge.svg?branch=develop&event=push)
 
 # Getting Started with Create React App
 
