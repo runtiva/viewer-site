@@ -22,7 +22,7 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
-          restore-key: |
+          restore-keys: |
             ${{ runner.os }}-node-
       # Load NodeJS dependency
       - name: Use NodeJS
