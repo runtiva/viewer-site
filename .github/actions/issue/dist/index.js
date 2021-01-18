@@ -11,10 +11,10 @@ module.exports = /******/ (() => {
         const body = core.getInput("body");
         const assignees = core.getInput("assignees");
 
-        // const octokit = github.GitHub(token);
-        const octokit = github.getOctokit(token);
+        const octokit = github.GitHub(token);
+        //const octokit = github.getOctokit(token);
 
-        const response = octokit.issues.create({
+        const response = await octokit.issues.create({
           // owner: github.context.repo.owner,
           // repo: github.context.repo.repo,
           ...github.context.repo,
