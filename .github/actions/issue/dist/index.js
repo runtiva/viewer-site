@@ -1,29 +1,29 @@
 module.exports = /******/ (() => {
   // webpackBootstrap
   /******/ var __webpack_modules__ = {
-    /***/ 540: /***/ (__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
+    /***/ 717: /***/ (__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
       const core = __nccwpck_require__(186);
       const github = __nccwpck_require__(438);
 
       try {
-        // throw(new Error("some error message"));
+        const token = core.getInput("token");
+        const title = core.getInput("title");
+        const body = core.getInput("body");
+        const assignees = core.getInput("assignees");
 
-        core.debug("Debug message");
-        core.warning("Warning message");
-        core.error("Error message"); // does not cause action to fail
+        // const octokit = github.GitHub(token);
+        const octokit = github.getOctokit(token);
 
-        const name = core.getInput("who-to-greet");
-        core.setSecret(name);
-        console.log(`Hello ${name}`);
+        const response = octokit.issues.create({
+          // owner: github.context.repo.owner,
+          // repo: github.context.repo.repo,
+          ...github.context.repo,
+          title,
+          body,
+          assignees: assignees ? assignees.split(",") : undefined
+        });
 
-        const time = new Date();
-        core.setOutput("time", time.toTimeString());
-
-        core.startGroup("Logging github object");
-        console.log(JSON.stringify(github, null, "\t"));
-        core.endGroup();
-
-        core.exportVariable("HELLO", "hello");
+        core.setOutput("issue", JSON.stringify(response.data));
       } catch (error) {
         core.setFailed(error.message);
       }
@@ -166,7 +166,7 @@ module.exports = /******/ (() => {
         };
       Object.defineProperty(exports, "__esModule", { value: true });
       const command_1 = __nccwpck_require__(351);
-      const file_command_1 = __nccwpck_require__(717);
+      const file_command_1 = __nccwpck_require__(185);
       const utils_1 = __nccwpck_require__(278);
       const os = __importStar(__nccwpck_require__(87));
       const path = __importStar(__nccwpck_require__(622));
@@ -386,7 +386,7 @@ module.exports = /******/ (() => {
       /***/
     },
 
-    /***/ 717: /***/ function (__unused_webpack_module, exports, __nccwpck_require__) {
+    /***/ 185: /***/ function (__unused_webpack_module, exports, __nccwpck_require__) {
       "use strict";
 
       // For internal use, subject to change.
@@ -6729,11 +6729,12 @@ module.exports = /******/ (() => {
     /******/
     /******/ /******/ return module.exports;
     /******/
-  } /* webpack/runtime/compat */ /******/
+  } /* webpack/runtime/compat */
   /******/
   /************************************************************************/
-  /******/ /******/ __nccwpck_require__.ab =
+  /******/ /******/
+  /******/ __nccwpck_require__.ab =
     __dirname + "/"; /************************************************************************/ // module exports must be returned from runtime so entry inlining is disabled // startup // Load entry module and return exports
-  /******/ /******/ /******/ /******/ return __nccwpck_require__(540);
+  /******/ /******/ /******/ /******/ return __nccwpck_require__(717);
   /******/
 })();
