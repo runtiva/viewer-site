@@ -16,6 +16,14 @@ jobs:
     steps:
       # Checkout from repo
       - uses: actions/checkout@v2
+        # cache npm node modules for future workflow processes
+      - name: Cache node_modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       # Load NodeJS dependency
       - name: Use NodeJS
         uses: actions/setup-node@v1
@@ -27,9 +35,20 @@ jobs:
       - run: npm test -- --coverage
         env:
           CI: true
+      - name: Upload Test Coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage
+          path: coverage
       - name: Build Project
         if: github.event_name == 'push'
         run: npm run build
+      - name: Upload Build Folder
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: build
       - name: Deploy to staging
         if: github.event_name == 'push'
 
