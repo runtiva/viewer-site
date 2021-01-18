@@ -1,19 +1,40 @@
 name: CI
 on:
+  # On PRs for develop branch, we run checks / tests
   pull_request:
+    branches: [develop]
+
+  # On pushes/approvals of PRs for develop branch,
+  # we re-run build and run checks / tests
+  # then deploy to staging
+  push:
     branches: [develop]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Checkout from repo
       - uses: actions/checkout@v2
+      # Load NodeJS dependency
       - name: Use NodeJS
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+      # Run npm build and validate formatting & tests
       - run: npm ci
       - run: npm run format:check
       - run: npm test -- --coverage
         env:
           CI: true
+      - name: Build Project
+        if: github.event_name == 'push'
+        run: npm run build
+      - name: Deploy to staging
+        if: github.event_name == 'push'
+
+        #install and run surge to deploy
+        run: npx surge --project .build --domain momentous-scarf.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
