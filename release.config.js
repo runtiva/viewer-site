@@ -1,5 +1,5 @@
 module.exprts = {
-  branches: "main",
+  branches: ["main"],
   repositoryUrl: "https://github.com/runtiva/viewer-site.git",
   plugins: [
     "@semantic-release/commit-analyzer",
