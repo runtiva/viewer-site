@@ -20,7 +20,10 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v1
         with:
-          path: ~/.npm00d4febd3baf3c61423d101cb687c524b40e520es }}-node-
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       # Load NodeJS dependency
       - name: Use NodeJS
         uses: actions/setup-node@v1
