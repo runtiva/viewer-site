@@ -22,4 +22,4 @@ echo "some stuff"
 echo "::endgroup::"
 
 # Create environment var
-echo "::set-var name=HELLO::hello"
+echo "::set-env name=HELLO::hello"
