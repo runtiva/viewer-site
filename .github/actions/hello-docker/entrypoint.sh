@@ -1,5 +1,11 @@
 #!/bin/sh -l
 
+if (true)
+then
+  echo "test error occurred"
+  exit 1
+fi
+
 # prints a message in debug format
 echo "::debug ::Debug Message"
 echo "::warning ::Warning Message"
@@ -24,3 +30,4 @@ echo "::endgroup::"
 # Create environment var
 echo "HELLO=hello" >> $GITHUB_ENV
 #echo "::set-env name=HELLO::hello"
+
