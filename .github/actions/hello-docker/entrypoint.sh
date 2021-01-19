@@ -22,4 +22,5 @@ echo "some stuff"
 echo "::endgroup::"
 
 # Create environment var
-echo "::set-env name=HELLO::hello"
+echo "HELLO=hello" >> $GITHUB_ENV
+#echo "::set-env name=HELLO::hello"
