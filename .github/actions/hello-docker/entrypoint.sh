@@ -7,6 +7,7 @@ echo "::error ::Error Message"
 
 #secret var
 echo "::add-mask::$1"
+echo "Hello $1"
 
 # set output
 time=$(date)
@@ -21,10 +22,4 @@ echo "some stuff"
 echo "::endgroup::"
 
 # Create environment var
-echo '::set-var name=HELLO::hello"
-
-
-
-echo "Hello $1"
-
-
+echo "::set-var name=HELLO::hello"
